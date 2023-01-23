@@ -1,10 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import MessageList from './MessageList';
-import UserInput from './UserInput';
-import Header from './Header';
-import PinMessage from './PinMessage';
+import React from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import MessageList from "./MessageList";
+import UserInput from "./UserInput";
+import Header from "./Header";
+import PinMessage from "./PinMessage";
 
 function ChatWindow(props) {
   const {
@@ -17,29 +17,27 @@ function ChatWindow(props) {
     onUserInputSubmit,
     onFilesSelected,
     pinMessage,
-	  onPinMessage,
+    onPinMessage,
     placeholder,
   } = props;
 
-  const {
-    teamName,
-    imageUrl,
-  } = agentProfile;
+  const { teamName, imageUrl } = agentProfile;
 
   return (
-    <div className={classNames('sc-chat-window', { 'opened': isOpen }, { 'closed': !isOpen })}>
-      <Header
-        teamName={teamName}
-        imageUrl={imageUrl}
-        onClose={onClose}
-      />
+    <div
+      className={classNames(
+        "sc-chat-window",
+        { opened: isOpen },
+        { closed: !isOpen }
+      )}
+    >
+      <Header teamName={teamName} imageUrl={imageUrl} onClose={onClose} />
 
-      {pinMessage && <PinMessage pinMessage={pinMessage} onPinMessage={onPinMessage} />}
+      {pinMessage && (
+        <PinMessage pinMessage={pinMessage} onPinMessage={onPinMessage} />
+      )}
 
-      <MessageList
-        messages={messageList}
-        imageUrl={imageUrl}
-      />
+      <MessageList messages={messageList} imageUrl={imageUrl} />
 
       <UserInput
         onSubmit={onUserInputSubmit}

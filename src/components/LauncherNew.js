@@ -1,11 +1,11 @@
-import { pipe, prop, length, last, equals } from 'ramda';
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import classNames from 'classnames';
-import ChatWindow from './ChatWindow';
-import launcherIcon from '../assets/logo-no-bg.svg';
-import launcherIconActive from '../assets/close-icon.png';
-import incomingMessageSound from '../assets/sounds/notification.mp3';
+import { pipe, prop, length, last, equals } from "ramda";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import classNames from "classnames";
+import ChatWindow from "./ChatWindow";
+import launcherIcon from "../assets/logo-no-bg.svg";
+import launcherIconActive from "../assets/close-icon.png";
+import incomingMessageSound from "../assets/sounds/notification.mp3";
 // import { SDK } from '@pioneer-sdk/sdk'
 
 function LauncherNew(props) {
@@ -13,131 +13,128 @@ function LauncherNew(props) {
     isOpen,
     onClick,
     mute,
-  showEmoji,
-  agentProfile,
-  messageList,
-  newMessagesCount,
-  onMessageWasSent,
-  onFilesSelected,
+    showEmoji,
+    agentProfile,
+    messageList,
+    newMessagesCount,
+    onMessageWasSent,
+    onFilesSelected,
     fileUpload,
     pinMessage,
-	  onPinMessage,
+    onPinMessage,
     placeholder,
   } = props;
 
   const defaultState = {
-	  isOpen: false,
-	  messageList,
+    isOpen: false,
+    messageList,
   };
 
   const [state, setState] = useState(defaultState);
 
   let onStart = async function () {
-      try{
-          console.log("ON START ************")
-          // let blockchains = [
-          //     'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
-          // ]
-          // const config = {
-          //     blockchains,
-          //     username:"test123",
-          //     queryKey:"12324234324",
-          //     service: process.env.REACT_APP_PIONEER_SERVICE || 'swaps.pro',
-          //     url: process.env.REACT_APP_APP_URL,
-          //     wss: process.env.REACT_APP_URL_PIONEER_SOCKET,
-          //     spec: process.env.REACT_APP_URL_PIONEER_SPEC,
-          //     paths: []
-          // }
-          // console.log("config: ", config)
-          //
-          // //Pioneer SDK
-          // let pioneer = new SDK(config.spec, config)
-          //
-          // let user = await pioneer.init()
-          // console.log("user: ", user)
-      }catch(e){
-          console.error(e)
-      }
-  }
-
-    useEffect(() => {
-        onStart();
-    }, []);
+    try {
+      console.log("ON START ************");
+      console.log("ON START ************", props);
+      // let blockchains = [
+      //     'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
+      // ]
+      // const config = {
+      //     blockchains,
+      //     username:"test123",
+      //     queryKey:"12324234324",
+      //     service: process.env.REACT_APP_PIONEER_SERVICE || 'swaps.pro',
+      //     url: process.env.REACT_APP_APP_URL,
+      //     wss: process.env.REACT_APP_URL_PIONEER_SOCKET,
+      //     spec: process.env.REACT_APP_URL_PIONEER_SPEC,
+      //     paths: []
+      // }
+      // console.log("config: ", config)
+      //
+      // //Pioneer SDK
+      // let pioneer = new SDK(config.spec, config)
+      //
+      // let user = await pioneer.init()
+      // console.log("user: ", user)
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  onStart();
+  useEffect(() => {
+    onStart();
+  }, []);
 
   useEffect(() => {
-    console.log("isOpen")
+    console.log("isOpen");
 
-    setState(state => ({
+    setState((state) => ({
       ...state,
       isOpen,
     }));
   }, [isOpen]);
 
   useEffect(() => {
-	  const prevMessageListLength = pipe(
-	  	prop('messageList'),
-		  length,
-	  )(state);
+    const prevMessageListLength = pipe(prop("messageList"), length)(state);
 
-	  const massageListLength = length(messageList);
+    const massageListLength = length(messageList);
 
-	  const isIncoming = pipe(
-	  	last,
-		  prop('author'),
-		  equals('them')
-	  )(messageList);
+    const isIncoming = pipe(last, prop("author"), equals("them"))(messageList);
 
-	  const isNew = massageListLength > prevMessageListLength;
+    const isNew = massageListLength > prevMessageListLength;
 
-	  if (isIncoming && isNew) {
-	    if (!mute) {
+    if (isIncoming && isNew) {
+      if (!mute) {
         playIncomingMessageSound();
       }
 
-		  setState(state => ({
-			  ...state,
-			  messageList,
-		  }));
-	  }
+      setState((state) => ({
+        ...state,
+        messageList,
+      }));
+    }
   }, [messageList]);
 
   function playIncomingMessageSound() {
-	  let audio = new Audio(incomingMessageSound);
-	  audio.play();
+    let audio = new Audio(incomingMessageSound);
+    audio.play();
   }
 
   function handleClick() {
-  	if (onClick) {
+    if (onClick) {
       onClick();
-	  } else {
-  	  setState(state => ({
+    } else {
+      setState((state) => ({
         ...state,
-        isOpen: !state.isOpen
+        isOpen: !state.isOpen,
       }));
     }
   }
 
   return (
     <div id="sc-launcher">
-	    <div className={classNames('sc-launcher', { 'opened': state.isOpen })} onClick={handleClick}>
-		    <MessageCount count={newMessagesCount} isOpen={state.isOpen} />
-		    <img className={'sc-open-icon'} src={launcherIconActive} />
-		    <img className={'sc-closed-icon'} src={launcherIcon} />
-	    </div>
+      <div
+        className={classNames("sc-launcher", { opened: state.isOpen })}
+        onClick={handleClick}
+      >
+        <MessageCount count={newMessagesCount} isOpen={state.isOpen} />
+        <img className={"sc-open-icon"} src={launcherIconActive} />
+        <img className={"sc-closed-icon"} src={launcherIcon} />
+      </div>
 
-	    <ChatWindow
-		    messageList={messageList}
-		    onUserInputSubmit={onMessageWasSent}
-		    onFilesSelected={onFilesSelected}
-		    agentProfile={agentProfile}
-		    isOpen={state.isOpen}
-		    onClose={onClick}
-		    showEmoji={showEmoji}
+      <ChatWindow
+        messageList={messageList}
+        onUserInputSubmit={onMessageWasSent}
+        onFilesSelected={onFilesSelected}
+        agentProfile={agentProfile}
+        isOpen={state.isOpen}
+        onClose={onClick}
+        showEmoji={showEmoji}
         fileUpload={fileUpload}
         pinMessage={pinMessage}
-		    onPinMessage={onPinMessage}
+        onPinMessage={onPinMessage}
         placeholder={placeholder}
-	    />
+      />
     </div>
   );
 }
@@ -145,11 +142,7 @@ function LauncherNew(props) {
 const MessageCount = ({ count, isOpen }) => {
   if (count === 0 || isOpen === true) return null;
 
-  return (
-    <div className='sc-new-messages-count'>
-      {count}
-    </div>
-  );
+  return <div className="sc-new-messages-count">{count}</div>;
 };
 
 LauncherNew.propTypes = {
@@ -174,7 +167,7 @@ LauncherNew.defaultProps = {
   messageList: [],
   newMessagesCount: 0,
   fileUpload: true,
-  placeholder: 'Write a reply...'
+  placeholder: "Write a reply...",
 };
 
 export default LauncherNew;

@@ -1,10 +1,10 @@
-import { prop } from 'ramda';
-import React, { useRef, useEffect } from 'react';
-import Message from './Messages';
+import { prop } from "ramda";
+import React, { useRef, useEffect } from "react";
+import Message from "./Messages";
 
 function MessageList(props) {
   const element = useRef(null);
-  const elementCurrent = prop('current', element);
+  const elementCurrent = prop("current", element);
 
   useEffect(() => {
     if (elementCurrent) {
@@ -14,7 +14,9 @@ function MessageList(props) {
 
   return (
     <div className="sc-message-list" ref={element}>
-      {props.messages.map((message, i) => <Message message={message} key={i} />)}
+      {props.messages.map((message, i) => (
+        <Message message={message} key={i} />
+      ))}
     </div>
   );
 }

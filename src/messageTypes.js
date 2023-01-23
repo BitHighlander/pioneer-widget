@@ -1,12 +1,12 @@
 const MESSAGE_TYPES = {
   CLIENT: {
-    NEW_VISITOR: 'client.new_visitor',
-    MESSAGE: 'client.message',
-    RETURNING_VISITOR: 'client.returning_visitor',
+    NEW_VISITOR: "client.new_visitor",
+    MESSAGE: "client.message",
+    RETURNING_VISITOR: "client.returning_visitor",
   },
   BROKER: {
-    VISITOR_ID: 'broker.visitor_id',
-    MESSAGE: 'broker.message',
+    VISITOR_ID: "broker.visitor_id",
+    MESSAGE: "broker.message",
   },
 };
 
