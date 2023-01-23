@@ -11,7 +11,6 @@ import incomingMessageSound from "../assets/sounds/notification.mp3";
 function LauncherNew(props) {
   const {
     isOpen,
-    onClick,
     mute,
     showEmoji,
     agentProfile,
@@ -34,7 +33,6 @@ function LauncherNew(props) {
 
   let onStart = async function () {
     try {
-      console.log("ON START ************");
       console.log("ON START ************", props);
       // let blockchains = [
       //     'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
@@ -60,10 +58,17 @@ function LauncherNew(props) {
       console.error(e);
     }
   };
-  onStart();
   useEffect(() => {
     onStart();
   }, []);
+
+  function onClick() {
+    setState(state => ({
+      ...state,
+      isOpen: !state.isOpen,
+      newMessagesCount: 0
+    }));
+  }
 
   useEffect(() => {
     console.log("isOpen");
@@ -147,7 +152,6 @@ const MessageCount = ({ count, isOpen }) => {
 
 LauncherNew.propTypes = {
   isOpen: PropTypes.bool,
-  onClick: PropTypes.func,
   mute: PropTypes.bool,
   showEmoji: PropTypes.bool,
   messageList: PropTypes.arrayOf(PropTypes.object),
