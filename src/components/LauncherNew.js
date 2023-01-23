@@ -6,18 +6,19 @@ import ChatWindow from './ChatWindow';
 import launcherIcon from '../assets/logo-no-bg.svg';
 import launcherIconActive from '../assets/close-icon.png';
 import incomingMessageSound from '../assets/sounds/notification.mp3';
+// import { SDK } from '@pioneer-sdk/sdk'
 
 function LauncherNew(props) {
   const {
     isOpen,
     onClick,
     mute,
-	  showEmoji,
-	  agentProfile,
-	  messageList,
-	  newMessagesCount,
-	  onMessageWasSent,
-	  onFilesSelected,
+  showEmoji,
+  agentProfile,
+  messageList,
+  newMessagesCount,
+  onMessageWasSent,
+  onFilesSelected,
     fileUpload,
     pinMessage,
 	  onPinMessage,
@@ -31,7 +32,41 @@ function LauncherNew(props) {
 
   const [state, setState] = useState(defaultState);
 
+  let onStart = async function () {
+      try{
+          console.log("ON START ************")
+          // let blockchains = [
+          //     'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
+          // ]
+          // const config = {
+          //     blockchains,
+          //     username:"test123",
+          //     queryKey:"12324234324",
+          //     service: process.env.REACT_APP_PIONEER_SERVICE || 'swaps.pro',
+          //     url: process.env.REACT_APP_APP_URL,
+          //     wss: process.env.REACT_APP_URL_PIONEER_SOCKET,
+          //     spec: process.env.REACT_APP_URL_PIONEER_SPEC,
+          //     paths: []
+          // }
+          // console.log("config: ", config)
+          //
+          // //Pioneer SDK
+          // let pioneer = new SDK(config.spec, config)
+          //
+          // let user = await pioneer.init()
+          // console.log("user: ", user)
+      }catch(e){
+          console.error(e)
+      }
+  }
+
+    useEffect(() => {
+        onStart();
+    }, []);
+
   useEffect(() => {
+    console.log("isOpen")
+
     setState(state => ({
       ...state,
       isOpen,
