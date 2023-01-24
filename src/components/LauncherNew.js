@@ -6,7 +6,7 @@ import ChatWindow from "./ChatWindow";
 import launcherIcon from "../assets/logo-no-bg.svg";
 import launcherIconActive from "../assets/close-icon.png";
 import incomingMessageSound from "../assets/sounds/notification.mp3";
-// import { SDK } from '@pioneer-sdk/sdk'
+import { SDK } from '@pioneer-sdk/sdk'
 
 function LauncherNew(props) {
   const {
@@ -34,26 +34,29 @@ function LauncherNew(props) {
   let onStart = async function () {
     try {
       console.log("ON START ************", props);
-      // let blockchains = [
-      //     'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
-      // ]
-      // const config = {
-      //     blockchains,
-      //     username:"test123",
-      //     queryKey:"12324234324",
-      //     service: process.env.REACT_APP_PIONEER_SERVICE || 'swaps.pro',
-      //     url: process.env.REACT_APP_APP_URL,
-      //     wss: process.env.REACT_APP_URL_PIONEER_SOCKET,
-      //     spec: process.env.REACT_APP_URL_PIONEER_SPEC,
-      //     paths: []
-      // }
-      // console.log("config: ", config)
-      //
-      // //Pioneer SDK
-      // let pioneer = new SDK(config.spec, config)
-      //
-      // let user = await pioneer.init()
-      // console.log("user: ", user)
+      let blockchains = [
+          'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
+      ]
+      const config = {
+          blockchains,
+          username:"test123",
+          queryKey:"12324234324",
+          service: 'pioneer-widget',
+          wss: 'ws://127.0.0.1:9001',
+          spec: 'http://127.0.0.1:9001/spec/swagger.json',
+          paths: []
+      }
+      console.log("config: ", config)
+      console.log("SDK: ", SDK)
+      //Pioneer SDK
+      let pioneer = new SDK(config.spec, config)
+      let user = await pioneer.init()
+      console.log("user: ", user)
+      console.log("pioneer: ", pioneer)
+      console.log("pioneer.events: ", pioneer.events)
+      // pioneer.events.on('blocks', (event) => {
+      //   console.log("blocks event!", event)
+      // });
     } catch (e) {
       console.error(e);
     }
