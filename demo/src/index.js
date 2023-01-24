@@ -7,7 +7,10 @@ import Header from './Header';
 import Footer from './Footer';
 import monsterImgUrl from './../assets/monster.png';
 import './../assets/styles';
-import io from "socket.io-client";
+import io from 'socket.io-client';
+
+const socket = io('ws://pioneers.dev');
+
 
 function Demo() {
   const [state, setState] = useState({
@@ -17,36 +20,23 @@ function Demo() {
     fileUpload: false,
   });
 
+  const [connected, setConnected] = useState(socket.connected);
 
-  let onStart = async function () {
-    try {
-      console.log("ON START ************");
-
-      const socket = io("ws://127.0.0.1:9001");
-
-      socket.on("connect", () => {
-        console.log("connected to server");
-      });
-
-      socket.on("message", msg => {
-        console.log("received message:", msg);
-      });
-
-      socket.on("disconnect", () => {
-        console.log("disconnected from server");
-      });
-
-      const sendMessage = msg => {
-        socket.send(msg);
-      };
-
-
-    } catch (e) {
-      console.error(e);
-    }
-  };
   useEffect(() => {
-    onStart();
+    socket.on('connect', () => {
+      console.log('socket connected');
+      setConnected(true);
+    });
+
+    socket.on('disconnect', () => {
+      console.log('socket disconnected');
+      setConnected(false);
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
   }, []);
 
   function onMessageWasSent(message) {
@@ -108,6 +98,7 @@ function Demo() {
       {/*<TestArea*/}
       {/*  onMessage={sendMessage}*/}
       {/*/>*/}
+      <p>Connected: {JSON.stringify(connected)}</p>
       <Launcher
         agentProfile={{
           teamName: 'popup-chat-react',

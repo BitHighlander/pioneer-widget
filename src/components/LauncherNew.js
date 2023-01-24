@@ -1,14 +1,14 @@
-import { pipe, prop, length, last, equals } from "ramda";
-import React, { useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import classNames from "classnames";
-import ChatWindow from "./ChatWindow";
-import launcherIcon from "../assets/logo-no-bg.svg";
-import launcherIconActive from "../assets/close-icon.png";
-import incomingMessageSound from "../assets/sounds/notification.mp3";
-import { SDK } from '@pioneer-sdk/sdk'
-import { Events } from '@pioneer-platform/pioneer-events'
-import io from "socket.io-client";
+import { pipe, prop, length, last, equals } from 'ramda';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import ChatWindow from './ChatWindow';
+import launcherIcon from '../assets/logo-no-bg.svg';
+import launcherIconActive from '../assets/close-icon.png';
+import incomingMessageSound from '../assets/sounds/notification.mp3';
+// import { SDK } from '@pioneer-sdk/sdk'
+// import { Events } from '@pioneer-platform/pioneer-events';
+// import io from 'socket.io-client';
 
 // window.addEventListener("beforeunload", function (event) { primus.end(); });
 
@@ -111,7 +111,7 @@ function LauncherNew(props) {
   }
 
   useEffect(() => {
-    console.log("isOpen");
+    console.log('isOpen');
 
     setState((state) => ({
       ...state,
@@ -120,11 +120,11 @@ function LauncherNew(props) {
   }, [isOpen]);
 
   useEffect(() => {
-    const prevMessageListLength = pipe(prop("messageList"), length)(state);
+    const prevMessageListLength = pipe(prop('messageList'), length)(state);
 
     const massageListLength = length(messageList);
 
-    const isIncoming = pipe(last, prop("author"), equals("them"))(messageList);
+    const isIncoming = pipe(last, prop('author'), equals('them'))(messageList);
 
     const isNew = massageListLength > prevMessageListLength;
 
@@ -159,12 +159,12 @@ function LauncherNew(props) {
   return (
     <div id="sc-launcher">
       <div
-        className={classNames("sc-launcher", { opened: state.isOpen })}
+        className={classNames('sc-launcher', { opened: state.isOpen })}
         onClick={handleClick}
       >
         <MessageCount count={newMessagesCount} isOpen={state.isOpen} />
-        <img className={"sc-open-icon"} src={launcherIconActive} />
-        <img className={"sc-closed-icon"} src={launcherIcon} />
+        <img className={'sc-open-icon'} src={launcherIconActive} />
+        <img className={'sc-closed-icon'} src={launcherIcon} />
       </div>
 
       <ChatWindow
@@ -211,7 +211,7 @@ LauncherNew.defaultProps = {
   messageList: [],
   newMessagesCount: 0,
   fileUpload: true,
-  placeholder: "Write a reply...",
+  placeholder: 'Write a reply...',
 };
 
 export default LauncherNew;
