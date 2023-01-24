@@ -7,6 +7,10 @@ import launcherIcon from "../assets/logo-no-bg.svg";
 import launcherIconActive from "../assets/close-icon.png";
 import incomingMessageSound from "../assets/sounds/notification.mp3";
 import { SDK } from '@pioneer-sdk/sdk'
+import { Events } from '@pioneer-platform/pioneer-events'
+import io from "socket.io-client";
+
+// window.addEventListener("beforeunload", function (event) { primus.end(); });
 
 function LauncherNew(props) {
   const {
@@ -31,39 +35,72 @@ function LauncherNew(props) {
 
   const [state, setState] = useState(defaultState);
 
-  let onStart = async function () {
-    try {
-      console.log("ON START ************", props);
-      let blockchains = [
-          'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
-      ]
-      const config = {
-          blockchains,
-          username:"test123",
-          queryKey:"12324234324",
-          service: 'pioneer-widget',
-          wss: 'ws://127.0.0.1:9001',
-          spec: 'http://127.0.0.1:9001/spec/swagger.json',
-          paths: []
-      }
-      console.log("config: ", config)
-      console.log("SDK: ", SDK)
-      //Pioneer SDK
-      let pioneer = new SDK(config.spec, config)
-      let user = await pioneer.init()
-      console.log("user: ", user)
-      console.log("pioneer: ", pioneer)
-      console.log("pioneer.events: ", pioneer.events)
-      // pioneer.events.on('blocks', (event) => {
-      //   console.log("blocks event!", event)
-      // });
-    } catch (e) {
-      console.error(e);
-    }
-  };
-  useEffect(() => {
-    onStart();
-  }, []);
+  // let onStart = async function () {
+  //   try {
+  //     console.log("ON START ************", props);
+  //     let blockchains = [
+  //         'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
+  //     ]
+  //     const config = {
+  //         blockchains,
+  //         username:"test123",
+  //         queryKey:"12324234324",
+  //         service: 'pioneer-widget',
+  //         wss: 'ws://127.0.0.1:9001',
+  //         spec: 'http://127.0.0.1:9001/spec/swagger.json',
+  //         paths: []
+  //     }
+  //     // console.log("config: ", config)
+  //     // console.log("SDK: ", SDK)
+  //     // //Pioneer SDK
+  //     // let pioneer = new SDK(config.spec, config)
+  //     // let user = await pioneer.init()
+  //
+  //     // let configEvents = {
+  //     //   queryKey:config.queryKey,
+  //     //   wss:config.wss
+  //     // }
+  //     // console.log("configEvents: ",configEvents)
+  //     // let events = new Events(configEvents)
+  //     // let result = await events.init()
+  //     // console.log("result: ",result)
+  //     //
+  //     // console.log("events.events: ",events.events)
+  //     // events.events.on('blocks', (event) => {
+  //     //   console.log("block event!")
+  //     // });
+  //
+  //     const socket = io("ws://127.0.0.1:9001");
+  //
+  //     socket.on("connect", () => {
+  //       console.log("connected to server");
+  //     });
+  //
+  //     socket.on("message", msg => {
+  //       console.log("received message:", msg);
+  //     });
+  //
+  //     socket.on("disconnect", () => {
+  //       console.log("disconnected from server");
+  //     });
+  //
+  //     const sendMessage = msg => {
+  //       socket.send(msg);
+  //     };
+  //
+  //     // console.log("user: ", user)
+  //     // console.log("pioneer: ", pioneer)
+  //     // console.log("pioneer.events: ", pioneer.events)
+  //     // pioneer.events.events.on('blocks', (event) => {
+  //     //   console.log("blocks event!", event)
+  //     // });
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+  // useEffect(() => {
+  //   onStart();
+  // }, []);
 
   function onClick() {
     setState(state => ({
