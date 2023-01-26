@@ -7,36 +7,37 @@ import Header from './Header';
 import Footer from './Footer';
 import monsterImgUrl from './../assets/monster.png';
 import './../assets/styles';
-import io from 'socket.io-client';
-
-const socket = io('ws://pioneers.dev');
-
+// import io from 'socket.io-client';
+import axios from 'axios';
+import { Events } from '@pioneer-platform/pioneer-events'
 
 function Demo() {
   const [state, setState] = useState({
     messageList: messageHistory,
     newMessagesCount: 0,
+    username: 'test123',
+    queryKey:"12312312ssdasas",
+    wss:"ws://127.0.0.1:9001",
     isOpen: false,
     fileUpload: false,
   });
 
-  const [connected, setConnected] = useState(socket.connected);
+  const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('socket connected');
-      setConnected(true);
-    });
+    let config = {
+      queryKey:"12312312ssdasas",
+      wss:"ws://127.0.0.1:9001"
+    }
 
-    socket.on('disconnect', () => {
-      console.log('socket disconnected');
-      setConnected(false);
-    });
+    let clientEvents = new Events(config)
+    clientEvents.init()
+    clientEvents.pair('test123')
 
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-    };
+    clientEvents.events.on('message',function(request){
+      console.log("message: ",request)
+      sendMessage(request.response.text)
+    })
   }, []);
 
   function onMessageWasSent(message) {
@@ -98,7 +99,7 @@ function Demo() {
       {/*<TestArea*/}
       {/*  onMessage={sendMessage}*/}
       {/*/>*/}
-      <p>Connected: {JSON.stringify(connected)}</p>
+      {/*<p>Connected: {JSON.stringify(connected)}</p>*/}
       <Launcher
         agentProfile={{
           teamName: 'popup-chat-react',

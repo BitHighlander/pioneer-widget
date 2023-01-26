@@ -20,6 +20,7 @@
     "gh:publish": "nwb build-demo && gh-pages -d demo/dist"
   },
   "dependencies": {
+    "@pioneer-platform/pioneer-events": "8.1.39",
     "classnames": "^2.2.6",
     "emoji-js": "^3.5.0",
     "gh-pages": "^3.1.0",

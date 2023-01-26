@@ -7,10 +7,10 @@ import launcherIcon from '../assets/logo-no-bg.svg';
 import launcherIconActive from '../assets/close-icon.png';
 import incomingMessageSound from '../assets/sounds/notification.mp3';
 // import { SDK } from '@pioneer-sdk/sdk'
-// import { Events } from '@pioneer-platform/pioneer-events';
+// import { Events } from '@pioneer-platform/pioneer-events'
 // import io from 'socket.io-client';
-
 // window.addEventListener("beforeunload", function (event) { primus.end(); });
+import axios from 'axios';
 
 function LauncherNew(props) {
   const {
@@ -34,73 +34,99 @@ function LauncherNew(props) {
   };
 
   const [state, setState] = useState(defaultState);
+  const [pioneer, setPioneer] = useState(null);
 
-  // let onStart = async function () {
-  //   try {
-  //     console.log("ON START ************", props);
-  //     let blockchains = [
-  //         'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
-  //     ]
-  //     const config = {
-  //         blockchains,
-  //         username:"test123",
-  //         queryKey:"12324234324",
-  //         service: 'pioneer-widget',
-  //         wss: 'ws://127.0.0.1:9001',
-  //         spec: 'http://127.0.0.1:9001/spec/swagger.json',
-  //         paths: []
-  //     }
-  //     // console.log("config: ", config)
-  //     // console.log("SDK: ", SDK)
-  //     // //Pioneer SDK
-  //     // let pioneer = new SDK(config.spec, config)
-  //     // let user = await pioneer.init()
-  //
-  //     // let configEvents = {
-  //     //   queryKey:config.queryKey,
-  //     //   wss:config.wss
-  //     // }
-  //     // console.log("configEvents: ",configEvents)
-  //     // let events = new Events(configEvents)
-  //     // let result = await events.init()
-  //     // console.log("result: ",result)
-  //     //
-  //     // console.log("events.events: ",events.events)
-  //     // events.events.on('blocks', (event) => {
-  //     //   console.log("block event!")
-  //     // });
-  //
-  //     const socket = io("ws://127.0.0.1:9001");
-  //
-  //     socket.on("connect", () => {
-  //       console.log("connected to server");
-  //     });
-  //
-  //     socket.on("message", msg => {
-  //       console.log("received message:", msg);
-  //     });
-  //
-  //     socket.on("disconnect", () => {
-  //       console.log("disconnected from server");
-  //     });
-  //
-  //     const sendMessage = msg => {
-  //       socket.send(msg);
-  //     };
-  //
-  //     // console.log("user: ", user)
-  //     // console.log("pioneer: ", pioneer)
-  //     // console.log("pioneer.events: ", pioneer.events)
-  //     // pioneer.events.events.on('blocks', (event) => {
-  //     //   console.log("blocks event!", event)
-  //     // });
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // };
-  // useEffect(() => {
-  //   onStart();
-  // }, []);
+  let onStart = async function () {
+    try {
+      console.log("ON START ************", props);
+
+      let blockchains = [
+          'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
+      ]
+
+      let register = {
+        username:"test123",
+        blockchains,
+        publicAddress:'none',
+        context:'none',
+        walletDescription:{
+          context:'none',
+          type:'none'
+        },
+        data:{
+          pubkeys:[]
+        },
+        queryKey:"12312312ssdasas",
+        auth:'lol',
+        provider:'lol'
+      }
+      // throw Error("@TODO")
+      axios.defaults.baseURL = 'http://localhost:9001';
+      axios.defaults.headers.common['Authorization'] = register.queryKey;
+      let result = await axios.post('/api/v1/register',register)
+      result = result.data
+      console.log("RESULT", result)
+
+      // const config = {
+      //     blockchains,
+      //     username:"test123",
+      //     queryKey:"12324234324",
+      //     service: 'pioneer-widget',
+      //     wss: 'ws://127.0.0.1:9001',
+      //     spec: 'http://127.0.0.1:9001/spec/swagger.json',
+      //     paths: []
+      // }
+      // console.log("config: ", config)
+      // console.log("SDK: ", SDK)
+      // //Pioneer SDK
+      // let pioneer = new SDK(config.spec, config)
+      // let user = await pioneer.init()
+      // setPioneer(pioneer)
+      // let config = {
+      //   // queryKey:TEST_QUERY_KEY_2,
+      //   queryKey:"12312312ssdasas",
+      //   wss:"ws://127.0.0.1:9001"
+      // }
+      //
+      // let clientEvents = new Events(config)
+      // clientEvents.init()
+      //
+      // clientEvents.events.on('message',function(request){
+      //   console.log("message: ",request)
+      //   // sendMessage(request)
+      // })
+
+      // const socket = io("ws://127.0.0.1:9001");
+      //
+      // socket.on("connect", () => {
+      //   console.log("connected to server");
+      // });
+      //
+      // socket.on("message", msg => {
+      //   console.log("received message:", msg);
+      // });
+      //
+      // socket.on("disconnect", () => {
+      //   console.log("disconnected from server");
+      // });
+      //
+      // const sendMessage = msg => {
+      //   socket.send(msg);
+      // };
+
+      // console.log("user: ", user)
+      // console.log("pioneer: ", pioneer)
+      // console.log("pioneer.events: ", pioneer.events)
+      // pioneer.events.events.on('blocks', (event) => {
+      //   console.log("blocks event!", event)
+      // });
+    } catch (e) {
+      console.error(e);
+    }
+  };
+  useEffect(() => {
+    onStart();
+  }, []);
 
   function onClick() {
     setState(state => ({
@@ -118,6 +144,22 @@ function LauncherNew(props) {
       isOpen,
     }));
   }, [isOpen]);
+
+  let sendMessage = async function(text){
+    try{
+      let query = {
+        queryKey: state.queryKey || "12312312ssdasas",
+        query:text
+      }
+      console.log("register payload: ",query)
+      axios.defaults.headers.common['Authorization'] = query.queryKey;
+      let result = await axios.post('http://127.0.0.1:9001/api/v1/pioneer/query',query)
+      result = result.data
+      console.log("register result: ",result)
+    }catch(e){
+      console.error(e)
+    }
+  }
 
   useEffect(() => {
     const prevMessageListLength = pipe(prop('messageList'), length)(state);
@@ -138,6 +180,12 @@ function LauncherNew(props) {
         messageList,
       }));
     }
+    if(!isIncoming && isNew) {
+      let message = messageList[messageList.length - 1]
+      console.log("message was send message: ",message.data.text)
+      sendMessage(message.data.text)
+    }
+
   }, [messageList]);
 
   function playIncomingMessageSound() {
