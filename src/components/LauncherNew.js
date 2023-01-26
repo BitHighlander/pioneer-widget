@@ -61,7 +61,7 @@ function LauncherNew(props) {
         provider:'lol'
       }
       // throw Error("@TODO")
-      axios.defaults.baseURL = 'http://localhost:9001';
+      axios.defaults.baseURL = 'https://pioneers.dev/spec/swagger.json';
       axios.defaults.headers.common['Authorization'] = register.queryKey;
       let result = await axios.post('/api/v1/register',register)
       result = result.data
@@ -153,7 +153,7 @@ function LauncherNew(props) {
       }
       console.log("register payload: ",query)
       axios.defaults.headers.common['Authorization'] = query.queryKey;
-      let result = await axios.post('http://127.0.0.1:9001/api/v1/pioneer/query',query)
+      let result = await axios.post('https://pioneers.dev/api/v1/pioneer/query',query)
       result = result.data
       console.log("register result: ",result)
     }catch(e){

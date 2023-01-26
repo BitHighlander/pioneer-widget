@@ -17,7 +17,7 @@ function Demo() {
     newMessagesCount: 0,
     username: 'test123',
     queryKey:"12312312ssdasas",
-    wss:"ws://127.0.0.1:9001",
+    wss:"wss://pioneers.dev",
     isOpen: false,
     fileUpload: false,
   });
@@ -27,7 +27,7 @@ function Demo() {
   useEffect(() => {
     let config = {
       queryKey:"12312312ssdasas",
-      wss:"ws://127.0.0.1:9001"
+      wss:"wss://pioneers.dev"
     }
 
     let clientEvents = new Events(config)
