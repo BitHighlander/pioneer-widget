@@ -11,7 +11,7 @@
     "umd"
   ],
   "scripts": {
-    "build": "nwb build-react-component --copy-files",
+    "build": "nwb build-react-component --copy-files --openssl-legacy-provider",
     "build:watch": "nwb build-react-component --copy-files --watch",
     "clean": "nwb clean-module && nwb clean-demo",
     "format": "prettier --write src",
