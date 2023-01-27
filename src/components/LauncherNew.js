@@ -43,7 +43,6 @@ function LauncherNew(props) {
       let blockchains = [
           'bitcoin', 'ethereum', 'thorchain', 'bitcoincash', 'litecoin', 'binance', 'cosmos', 'dogecoin', 'osmosis'
       ]
-
       let register = {
         username:"test123",
         blockchains,
@@ -61,7 +60,8 @@ function LauncherNew(props) {
         provider:'lol'
       }
       // throw Error("@TODO")
-      axios.defaults.baseURL = 'https://pioneers.dev/spec/swagger.json';
+      // axios.defaults.baseURL = 'https://pioneers.dev/spec/swagger.json';
+      axios.defaults.baseURL = 'https://pioneers.dev';
       axios.defaults.headers.common['Authorization'] = register.queryKey;
       let result = await axios.post('/api/v1/register',register)
       result = result.data

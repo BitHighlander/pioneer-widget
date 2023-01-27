@@ -36,7 +36,9 @@ function Demo() {
 
     clientEvents.events.on('message',function(request){
       console.log("message: ",request)
-      sendMessage(request.response.text)
+      if(request?.response && request?.response?.text){
+        sendMessage(request.response.text)
+      }
     })
   }, []);
 
@@ -66,6 +68,7 @@ function Demo() {
   }
 
   function sendMessage(text) {
+    console.log("text: ",)
     if (text.length > 0) {
       const newMessagesCount = state.isOpen ? state.newMessagesCount : state.newMessagesCount + 1;
 
